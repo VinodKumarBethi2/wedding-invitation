@@ -1,0 +1,110 @@
+/* ==========================================================================
+   motion.css — restrained, GPU-friendly cinematic motion
+   Reveal states are only applied when JS is running (html.js) so content is
+   never hidden if scripting fails. js/main.js toggles .is-visible.
+   ========================================================================== */
+
+/* ---------- Reveal helpers ---------- */
+.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 1.5rem, 0);
+  transition: opacity var(--dur-reveal) var(--ease-cinema), transform var(--dur-reveal) var(--ease-cinema);
+  transition-delay: var(--delay, 0s);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Soft blur-to-sharp for photographs */
+.js .reveal-blur {
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(1.04);
+  transition: opacity var(--dur-slow) var(--ease-cinema), filter var(--dur-slow) var(--ease-cinema),
+    transform var(--dur-slow) var(--ease-cinema);
+  transition-delay: var(--delay, 0s);
+}
+
+.js .reveal-blur.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+/* Masked reveal: image wipes upward from a clipped frame */
+.js .reveal-mask {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path var(--dur-slow) var(--ease-cinema);
+  transition-delay: var(--delay, 0s);
+}
+
+.js .reveal-mask.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---------- Slow cinematic zoom (opt-in per image, started by .is-visible) ---------- */
+.zoom-slow img {
+  transform: scale(1);
+  transform-origin: var(--focus-x, 50%) var(--focus-y, 50%);
+  transition: transform 14s linear;
+  will-change: transform;
+}
+
+.zoom-slow.is-visible img,
+.zoom-slow.is-zooming img {
+  transform: scale(var(--zoom-to, 1.05));
+}
+
+/* ---------- Parallax layer (JS sets --parallax-y; falls back to static) ---------- */
+.parallax {
+  overflow: hidden;
+}
+
+.parallax > .parallax__layer {
+  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(var(--parallax-scale, 1.12));
+  will-change: transform;
+}
+
+/* Disable heavier effects on small screens for performance */
+@media (max-width: 47.99em) {
+  .parallax > .parallax__layer {
+    --parallax-scale: 1.06;
+  }
+}
+
+/* ---------- Reduced motion: keep gentle fades only ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .reveal,
+  .js .reveal-blur,
+  .js .reveal-mask {
+    transform: none;
+    filter: none;
+    clip-path: none;
+    transition: opacity 0.6s linear;
+  }
+
+  .zoom-slow img,
+  .zoom-slow.is-visible img,
+  .zoom-slow.is-zooming img {
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .parallax > .parallax__layer {
+    transform: none;
+    will-change: auto;
+  }
+
+  .btn,
+  .btn:hover {
+    transition: none;
+    transform: none;
+  }
+}
