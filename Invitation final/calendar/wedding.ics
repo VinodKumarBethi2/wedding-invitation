@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Navya and Shivaprasad//Wedding//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:wedding-navya-shivaprasad-20261120@invitation
+DTSTAMP:20261113T000000Z
+DTSTART:20261120T041800Z
+DTEND:20261120T061800Z
+SUMMARY:Wedding of Navya & Shivaprasad
+DESCRIPTION:Muhurtham at 09:48 AM. Uttarabhadra Nakshatra · Dhanur Lagna. Dinner will be served after the marriage.
+LOCATION:Bhagyaraj Function Hall\, Rajiv Bypass\, Perkapelli Road\, Jagtial\, Telangana
+URL:https://maps.app.goo.gl/1nXDVQ7de8qmaZmz8
+END:VEVENT
+END:VCALENDAR
